@@ -1,9 +1,19 @@
 import { config, fields, collection } from '@keystatic/core';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export default config({
-    storage: {
-        kind: 'local',
-    },
+    storage: isProd
+        ? {
+            kind: 'github',
+            repo: {
+                owner: 'iSparshP',
+                name: 'philosophy-blog-cms',
+            },
+        }
+        : {
+            kind: 'local',
+        },
     collections: {
         blog: collection({
             label: 'Blog Posts',
