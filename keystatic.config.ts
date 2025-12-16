@@ -1,19 +1,21 @@
 import { config, fields, collection } from '@keystatic/core';
 
-const isProd = process.env.NODE_ENV === 'production';
+// Use Vercel/production detection that survives bundling so we don't accidentally
+// fall back to local storage (which fails on Vercel's read-only filesystem).
+const isProd = process.env.VERCEL === '1' || import.meta.env.PROD;
 
 export default config({
     storage: isProd
         ? {
-            kind: 'github',
-            repo: {
-                owner: 'iSparshP',
-                name: 'philosophy-blog-cms',
-            },
-        }
+              kind: 'github',
+              repo: {
+                  owner: 'iSparshP',
+                  name: 'philosophy-blog-cms',
+              },
+          }
         : {
-            kind: 'local',
-        },
+              kind: 'local',
+          },
     collections: {
         blog: collection({
             label: 'Blog Posts',
